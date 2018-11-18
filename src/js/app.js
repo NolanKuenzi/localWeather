@@ -71,7 +71,7 @@ class WeatherApp extends React.Component {
           alert("Geolocation data failed to load, plase try again.");
           return;
         });
-      } /* Success Func */
+      } /* Success Function */
     })(); /* getWeatherAppData IIFE */
   } 
   render() {
