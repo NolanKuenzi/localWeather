@@ -2,6 +2,7 @@
 import "../css/main.css";
 import React from "react";
 import ReactDOM from "react-dom";
+import regeneratorRuntime from "regenerator-runtime";
 
 function Header() {
   return (
@@ -58,19 +59,15 @@ class WeatherApp extends React.Component {
         const lat = position.coords.latitude;
         const long = position.coords.longitude;
         const api0 = "https://fcc-weather-api.glitch.me/api/current?lat="+lat+"&lon="+long;
-        const getData =  new Promise((resolve, reject) => {
-          const req = new XMLHttpRequest();
-          req.open("GET", api0, true);
-          req.onload = () => resolve(JSON.parse(req.responseText));
-          req.onerror = () => reject(req.statusText);
-          req.send();
-        });
-        getData.then(data => {
-          dataFunc(data.name, data.main.temp, data.weather[0].description, data.weather[0].icon);           
-        }).catch(error => {
-          alert("Geolocation data failed to load, plase try again.");
-          return;
-        });
+        const getData = (async function() {
+          try {
+            const request = await fetch(api0);
+            const data = await request.json();
+            dataFunc(data.name, data.main.temp, data.weather[0].description, data.weather[0].icon); 
+          } catch(error) {
+              alert("Geolocation data failed to load, plase try again.");
+          }
+        })();
       }
     })(); 
   }
