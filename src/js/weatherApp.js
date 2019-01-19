@@ -1,5 +1,6 @@
 import React from "react";
 import regeneratorRuntime from "regenerator-runtime";
+import api from "./api";
 
 class WeatherApp extends React.Component {
   constructor(props) {
@@ -11,22 +12,8 @@ class WeatherApp extends React.Component {
       description: "",
       icon: ""
     };
-    this.getData = this.getData.bind(this);
     this.dataRecievedFunc = this.dataRecievedFunc.bind(this);
     this.toggleC_F = this.toggleC_F.bind(this);
-  }
-  getData(input) {
-    const api = input;
-    const dataRecFunc = this.dataRecievedFunc;
-    const getDataFunc = (async function(api) {
-      try {
-        const request = await fetch(input);
-        const data = await request.json();
-        dataRecFunc(data.name, data.main.temp, data.weather[0].description, data.weather[0].icon); 
-      } catch(error) {
-        alert("Geolocation data failed to load, plase try again.");
-      }
-    })();
   }
   dataRecievedFunc(city, temp, description, icon) {
     this.setState({
@@ -54,7 +41,7 @@ class WeatherApp extends React.Component {
     } 
   }
   componentDidMount() {
-    const getDataFunc = this.getData;
+    const dataRecieved = this.dataRecievedFunc;
     const getWeatherAppData = (function() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(success);
@@ -65,8 +52,11 @@ class WeatherApp extends React.Component {
       function success(position) {
         const lat = position.coords.latitude;
         const long = position.coords.longitude;
-        const api0 = "https://fcc-weather-api.glitch.me/api/current?lat="+lat+"&lon="+long;
-        getDataFunc(api0);
+        const weatherLocation = "https://fcc-weather-api.glitch.me/api/current?lat="+lat+"&lon="+long;
+        const getWeatherLocation = (async function() {
+          const data = await api(weatherLocation);
+          dataRecieved(data.name, data.main.temp, data.weather[0].description, data.weather[0].icon); 
+        })();
       } 
     })(); 
   }
