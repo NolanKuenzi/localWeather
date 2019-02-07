@@ -1,6 +1,16 @@
 import React from "react";
 import regeneratorRuntime from "regenerator-runtime";
-import api from "./api";
+
+const api = async function(input) {
+  let data;
+  try {
+    const request = await fetch(input);
+    data = await request.json();
+  } catch(error) {
+    alert("Geolocation data failed to load, plase try again.");
+  }
+  return data;
+};
 
 class WeatherApp extends React.Component {
   constructor(props) {
