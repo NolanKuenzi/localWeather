@@ -1,0 +1,45 @@
+body {
+  background-color: teal;
+  background-color: #b3f0ff;
+}
+
+#topHeader {
+  text-align: center;
+  text-decoration: underline;
+  color: gray;
+}
+
+#contain {
+  margin-top: 10em;
+}
+
+.weatherData {
+	display: flex;
+	justify-content: center;
+  color: gray;
+}
+
+#temp {
+  display: flex;
+  display: row;
+  padding-left: 2em;
+}
+
+#toggle {
+  cursor: pointer;
+  color: blue;
+  margin-left: 0.5em;
+}
+
+#icon {
+  height: 20em;
+}
+
+#iconImg {
+  height: 10em;
+}
+
+#footer {
+  text-align: center;
+  color: gray;
+}
