@@ -1,0 +1,1 @@
+An app that displays the local weather in your area.
